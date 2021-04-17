@@ -1,6 +1,15 @@
 FROM alpine
 
-RUN apk add --update nodejs
+# nodejs version : CURRENT or LTS 
+ARG NODE_VERSION=CURRENT 
+
+RUN if [[ "$NODE_VERSION" == "LTS" ]]; then \
+        apk add --update nodejs npm yarn; \
+    elif [[ "$NODE_VERSION" == "CURRENT" ]]; then \
+        apk add --update nodejs-current npm yarn; \
+    else \
+        exit 1; \
+    fi
 
 COPY --from=gcr.io/kaniko-project/executor:debug /kaniko/ /kaniko/
 
@@ -13,4 +22,4 @@ ENV DOCKER_CREDENTIAL_GCR_CONFIG /kaniko/.config/gcloud/docker_credential_gcr_co
 
 WORKDIR /workspace
 RUN ["docker-credential-gcr", "config", "--token-source=env"]
-ENTRYPOINT ["sh"]`
+ENTRYPOINT ["sh"]
