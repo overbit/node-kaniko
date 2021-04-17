@@ -3,12 +3,19 @@ name: ci
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Prepare
+        id: prep
+        run: |
+          DOCKER_IMAGE=overbit/kaniko-nodejs
+          TAGS="${DOCKER_IMAGE}:${GITHUB_SHA::6}"
+          TAGS="$TAGS,${DOCKER_IMAGE}:latest"
+          echo ::set-output name=tags::${TAGS}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -27,9 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: |
-                overbit/kaniko-nodejs:latest
-                overbit/kaniko-nodejs:${GITHUB_SHA::6}
+          tags: ${{ steps.prep.outputs.tags }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
