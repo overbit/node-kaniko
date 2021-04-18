@@ -15,8 +15,8 @@ jobs:
         id: prep
         run: |
           DOCKER_IMAGE=overbit/kaniko-node
-          TAGS="${DOCKER_IMAGE}:${GITHUB_SHA::6}"
-          TAGS="$TAGS,${DOCKER_IMAGE}:latest"
+          DATE=$(date +"%Y-%m-%d")
+          echo ::set-output name=date::${DATE}
           echo ::set-output name=image::${DOCKER_IMAGE}
           echo ::set-output name=gitsha::${GITHUB_SHA::6}
       -
@@ -39,8 +39,8 @@ jobs:
           build-args: NODE_VERSION=LTS
           push: true
           tags: |
+              ${{ steps.prep.outputs.image }}:lts-${{ steps.prep.outputs.date }}
               ${{ steps.prep.outputs.image }}:lts
-              ${{ steps.prep.outputs.image }}:lts-${{ steps.prep.outputs.gitsha }}
       -
         name: Build and push CURRENT
         id: docker_build_current
@@ -49,8 +49,9 @@ jobs:
           build-args: NODE_VERSION=CURRENT
           push: true
           tags: |
+              ${{ steps.prep.outputs.image }}:current-${{ steps.prep.outputs.date }}
+              ${{ steps.prep.outputs.image }}:current
               ${{ steps.prep.outputs.image }}:latest
-              ${{ steps.prep.outputs.image }}:current-${{ steps.prep.outputs.gitsha }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
