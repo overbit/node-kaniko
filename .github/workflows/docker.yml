@@ -32,16 +32,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push LTS
-        id: docker_build_lts
-        uses: docker/build-push-action@v2
-        with:
-          build-args: NODE_VERSION=LTS
-          push: true
-          tags: |
-              ${{ steps.prep.outputs.image }}:lts-${{ steps.prep.outputs.date }}
-              ${{ steps.prep.outputs.image }}:lts
-      -
         name: Build and push CURRENT
         id: docker_build_current
         uses: docker/build-push-action@v2
@@ -51,6 +41,16 @@ jobs:
           tags: |
               ${{ steps.prep.outputs.image }}:current-${{ steps.prep.outputs.date }}
               ${{ steps.prep.outputs.image }}:current
+      -
+        name: Build and push LTS
+        id: docker_build_lts
+        uses: docker/build-push-action@v2
+        with:
+          build-args: NODE_VERSION=LTS
+          push: true
+          tags: |
+              ${{ steps.prep.outputs.image }}:lts-${{ steps.prep.outputs.date }}
+              ${{ steps.prep.outputs.image }}:lts
               ${{ steps.prep.outputs.image }}:latest
       -
         name: Image digest
