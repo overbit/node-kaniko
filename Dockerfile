@@ -4,9 +4,9 @@ FROM alpine
 ARG NODE_VERSION=CURRENT 
 
 RUN if [[ "$NODE_VERSION" == "LTS" ]]; then \
-        apk add --update nodejs npm yarn git; \
+        apk add --update nodejs npm yarn git bash; \
     elif [[ "$NODE_VERSION" == "CURRENT" ]]; then \
-        apk add --update nodejs-current npm yarn git; \
+        apk add --update nodejs-current npm yarn git bash; \
     else \
         exit 1; \
     fi

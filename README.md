@@ -25,3 +25,4 @@ The image comes with the following tools available to support CI jobs/actions:
 - npm
 - yarn
 - git
+- bash
