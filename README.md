@@ -3,8 +3,8 @@ A docker image with nodejs and kaniko to build docker images without elevated pe
 
 ## Supported tags 
 
-`latest`, `current` run nodejs current version
-`lts` run nodejs lts version
+`latest`, `lts`, `lts-monthly-run-date` run nodejs lts version
+`current`, `current-monthly-run-date` run nodejs current version
 
 ## Usage
 
