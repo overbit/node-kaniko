@@ -16,3 +16,12 @@ docker run -ti --rm -v `pwd`:/workspace overbit/kaniko-node:lts --dockerfile=Doc
 ```
 
 [Kanico docs](https://github.com/GoogleContainerTools/kaniko)
+
+## Available tools
+
+The image comes with the following tools available to support CI jobs/actions:
+- kaniko
+- nodejs
+- npm
+- yarn
+- git

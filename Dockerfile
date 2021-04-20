@@ -1,12 +1,12 @@
 FROM alpine
 
-# nodejs version : CURRENT or LTS 
+# nodejs version: CURRENT or LTS 
 ARG NODE_VERSION=CURRENT 
 
 RUN if [[ "$NODE_VERSION" == "LTS" ]]; then \
-        apk add --update nodejs npm yarn; \
+        apk add --update nodejs npm yarn git; \
     elif [[ "$NODE_VERSION" == "CURRENT" ]]; then \
-        apk add --update nodejs-current npm yarn; \
+        apk add --update nodejs-current npm yarn git; \
     else \
         exit 1; \
     fi
